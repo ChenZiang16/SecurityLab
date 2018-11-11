@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+          
+          <!-- 进行权限控制的url，需要的角色权限  -->
+          <security:http auto-config="true">
+          	<security:http-basic/>
+		      <security:intercept-url pattern="/**" access="ROLE_USER"/>
+		   </security:http>
+		   
+		   <!-- 使用users.properties配置用户角色权限 -->
+		   <security:authentication-manager>
+		      <security:authentication-provider>
+		        <security:user-service properties="classpath:users.properties"/>
+		      </security:authentication-provider>
+		   </security:authentication-manager>
+
+</beans>

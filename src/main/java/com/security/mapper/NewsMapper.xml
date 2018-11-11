@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+   <mapper namespace="com.security.dao.NewsDao"> 
+   
+   <resultMap type="com.security.entry.News" id="newsMap">
+	   	<id property="newsId" column="NEWS_ID"/>
+	   	<result property="content" column="CONTENT"/>
+	   	<result property="newsType" column="NEWS_TYPE"/>
+	   	<result property="title" column="TITLE"/>
+	   	<result property="publishTime" column="PUBLISH_TIME"/>
+   </resultMap>
+   
+ 	<insert id = "upNew" parameterType = "com.security.entry.Files">
+	 	insert into News(title,content,news_Type,publish_Time) values (#{title},#{content},#{newsType},#{publishTime})
+ 	</insert>
+ 	
+ 	<select id = "getNews" parameterType = "com.security.entry.News" resultMap = "newsMap">
+	 	select content,title,publish_Time from news where news_id =#{newsId}
+ 	</select>
+ 	
+ 	<select id = "getNewsList" parameterType = "java.lang.String" resultMap = "newsMap">
+	 	select news_id,content,title,publish_Time,news_Type from news where news_Type = #{newsType} order by publish_Time desc fetch first 9 rows only
+ 	</select>
+ 	
+ 		
+	</mapper>

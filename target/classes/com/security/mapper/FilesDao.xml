@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+   <mapper namespace="com.security.dao.FilesDao"> 
+   
+   <resultMap type="com.security.entry.Files" id="filesMap">
+	   	<id property="fileId" column="FILE_ID"/>
+	   	<result property="userId" column="USER_ID"/>
+	   	<result property="content" column="CONTENT"/>
+	   	<result property="title" column="TITLE"/>
+	   	<result property="fileType" column="FILE_TYPE"/>
+	   	<result property="attachNum" column="ATTACH_NUM"/>
+	   	<result property="uploadTime" column="UPLOAD_TIME"/>
+	   	<result property="deleteTime" column="DELETE_TIME"/>
+   </resultMap>
+   
+   <resultMap type="com.security.entry.Attachment" id="attachsMap">
+	   	<id property="attachId" column="ATTACH_ID"/>
+	   	<result property="userId" column="USER_ID"/>
+	   	<result property="fileId" column="FILE_ID"/>
+	   	<result property="attachName" column="ATTACH_NAME"/>
+	   	<result property="path" column="PATH"/>
+	   	<result property="uploadTime" column="UPLOAD_TIME"/>
+	   	<result property="deleteTime" column="DELETE_TIME"/>
+   </resultMap>
+   
+    <select id = "countNum" parameterType = "com.security.entry.User" resultType = "java.lang.Integer">
+	 	select count(file_Id) from files where 1=1
+	 	<if test="id !=null and id !=''">
+	 		and user_id = #{id}
+	 	</if>
+ 	</select>
+   
+ 	<insert id = "upWords" parameterType = "com.security.entry.Files">
+	 	insert into files(title,content,user_id,upload_time) values (#{title},#{content},#{userId},#{uploadTime})
+ 	</insert>
+ 	
+ 	<select id = "getWords" parameterType = "com.security.entry.Files" resultMap = "filesMap">
+	 	select file_Id,content,title from files where user_id = #{userId}  
+	 	<if test="title !=null and title !=''">
+	 		and title = #{title}
+	 	</if>
+	 	<if test="fileId !=null and fileId !=''">
+	 		and file_id =#{fileId}
+	 	</if>
+ 	</select>
+ 	
+ 	<select id = "getFileList" parameterType = "com.security.entry.User" resultMap = "filesMap">
+	 	select file_Id,title,file_Type,attach_Num from files where user_id = #{id}
+ 	</select>
+ 	
+ 	<select id = "getAttachList" parameterType = "com.security.entry.Files" resultMap = "attachsMap">
+	 	select attach_id,file_Id,attach_Name,path from attachment where file_id = #{fileId} and delete_flag =0
+ 	</select>
+ 	
+ 	<delete id = "deleteWords" parameterType = "com.security.entry.Files">
+ 		delete from files where where file_id =#{fileId} and user_id = #{userId};
+ 	</delete>
+ 		
+	</mapper>

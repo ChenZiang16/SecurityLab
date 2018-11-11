@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+   <mapper namespace="com.security.dao.DocumentDao"> 
+   
+   <resultMap type="com.security.entry.Document" id="docMap">
+	   	<id property="docId" column="DOC_ID"/>
+	   	<result property="userId" column="USER_ID"/>
+	   	<result property="title" column="TITLE"/>
+	   	<result property="path" column="PATH"/>
+	   	<result property="uploadTime" column="UPLOAD_TIME"/>
+   </resultMap>
+   
+   <select id = "countDoc" resultType = "java.lang.Integer">
+	 	select count(doc_Id) from documents where 1=1
+
+ 	</select>
+   
+ 	
+ 	<select id = "getDocList" parameterType = "java.lang.String" resultMap = "docMap">
+	 	select doc_Id,title,user_Id,path from documents where 1=1
+	 	<if test="_parameter !=null and _parameter !=''">
+	 		and user_id = #{_parameter}
+	 	</if>
+ 	</select>
+ 	
+ 	<insert id = "insertDoc" parameterType="com.security.entry.Document">
+ 		insert into documents(TITLE,USER_ID,PATH,UPLOAD_TIME) values (#{title},#{userId},#{path},#{uploadTime})
+ 	</insert>
+ 	
+ 	<select id = "getDoc" parameterType = "com.security.entry.Document" resultMap = "docMap">
+	 	select doc_Id,title,user_Id,path from documents where 1=1
+	 	<if test="userId !=null and userId !=''">
+	 		and user_id = #{userId}
+	 	</if>
+	 	<if test="title !=null and title !=''">
+	 		and title = #{title}
+	 	</if>
+	 	<if test="docId !=null and docId !=''">
+	 		and doc_id =#{docId}
+	 	</if>
+ 	</select>
+ 		
+	</mapper>

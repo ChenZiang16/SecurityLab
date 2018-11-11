@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+   <mapper namespace="com.security.dao.MessageDao"> 
+   
+   <resultMap type="com.security.entry.Message" id="messageMap">
+	   	<id property="msgId" column="MSG_ID"/>
+	   	<result property="content" column="CONTENT"/>
+	   	<result property="name" column="NAME"/>
+	   	<result property="email" column="EMAIL"/>
+	   	<result property="gender" column="GENDER"/>
+	   	<result property="uploadTime" column="UPLOAD_TIME"/>
+   </resultMap>
+   
+    <select id = "getMsgs"  resultMap = "messageMap">
+	 	select msg_Id,name,email,gender,content,upload_time from message 
+ 	</select>
+   
+ 	<insert id = "insertMsg" parameterType = "com.security.entry.Message" >
+	 	insert into message(name,email,gender,content,upload_time) values (#{name},#{email},#{gender},#{content},#{uploadTime})
+ 	</insert>
+ 	
+ 		
+	</mapper>

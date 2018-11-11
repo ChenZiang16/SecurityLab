@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+   <mapper namespace="com.security.dao.ApparatusDao"> 
+      <resultMap type="com.security.entry.Apparatus" id="ApparatusMap">
+	   	<id property="appaId" column="APPA_ID"/>
+	   	<result property="appaName" column="APPA_NAME"/>
+	   	<result property="path" column="PATH"/>
+	   	<result property="dept" column="DEPT"/>
+	   	<result property="manager" column="MANAGER"/>
+	   	<result property="status" column="STATUS"/>
+	   	<result property="importTime" column="IMPORT_TIME"/>
+	   	<result property="price" column="PRICE"/>
+   </resultMap>
+   
+    <select id = "getApparatus" parameterType="java.util.Map" resultMap = "ApparatusMap">
+	 	select appa_Id,appa_Name,path,dept,manager,status,import_Time,price from apparatus where 1=1 
+	 	<if test="role !=null and role !=''">
+	 		and role =#{role} 
+	 	</if>
+	 	<if test="type !=null and type !=''">
+	 		and type = #{type}
+	 	</if>
+	 	 
+ 	</select>
+ 		
+  </mapper>
